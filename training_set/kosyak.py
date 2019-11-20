@@ -113,9 +113,10 @@ def main():
     for iteration in range(1, 25):
         logger.info("Starting iteration #%s", iteration)
         fetcher.run()
+        fetcher.dump_journal()
         logger.info("Iteration #%s ended, going to sleep for a while", iteration)
         time.sleep(MAIN_LOOP_PERIOD_SEC)
-    fetcher.dump_journal()
+
     logger.info("All done.")
 
 
