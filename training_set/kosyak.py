@@ -91,9 +91,9 @@ class FeedFetcher:
         os.makedirs(os.path.dirname(link_dir), exist_ok=True)
         with open(link_dir, "a+") as fd:
             for entry in feed["entries"]:
-                fd.write(entry["title"])
+                fd.write(entry.get("title", ""))
                 fd.write("\n")
-                fd.write(entry["summary"])
+                fd.write(entry.get("summary", ""))
                 fd.write("\n" * 3)
 
         self.journal[link] = {"hash": feed_hash, "date": today.isoformat()}
