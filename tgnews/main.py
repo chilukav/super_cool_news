@@ -4,6 +4,8 @@ import argparse
 import pathlib
 from collections import namedtuple
 
+from tgnews.parser import htmlparser
+
 
 Command = namedtuple('Command', ['name', 'help'])
 COMMANDS = [
@@ -17,16 +19,21 @@ COMMANDS = [
 
 def is_directory(path: str):
     path = pathlib.Path(path)
-    if not path.exists() and not path.is_dir():
-        raise argparse.ArgumentTypeError()
+    path = path.expanduser()
+    if not path.exists():
+        raise argparse.ArgumentTypeError(f'{path} does not exists')
+    if not path.is_dir():
+        raise argparse.ArgumentTypeError(f'{path} is not directory')
     return path
 
 
 def main(command, source_dir: pathlib.Path):
     for file in source_dir.rglob('*'):
         if not file.is_file():
-            pass
-        print(file.name)
+            continue
+        with file.open('rb') as fd:
+            print(file.name)
+            print(htmlparser(fd.read()).decode('utf-8'))
 
 
 if __name__ == '__main__':
