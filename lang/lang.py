@@ -61,7 +61,6 @@ def create_dicts(lang_dirs):
         for lang_text in lang_path.iterdir():
             text = lang_text.open().read().lower()
 
-            print(lang_trigrams)
             lang_trigrams.update(create_trigrams(text))
 
         lang_file = open(f'{LANG_DICT_DIR}/{lang}.txt', 'w')
