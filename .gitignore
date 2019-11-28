@@ -1,2 +1,10 @@
 .idea
 .python-version
+1
+2
+3
+4
+source
+*.swp
+*.log
+__pycache__
