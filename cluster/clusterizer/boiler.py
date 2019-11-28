@@ -1,12 +1,12 @@
 import copy
 
-from cluster.clusterizer import common
-from cluster.clusterizer import config
-from cluster.clusterizer import macro_operations
-from cluster.clusterizer import micro_operations
-from cluster.clusterizer import algorithms
-from cluster.clusterizer.cluster import MacroCluster
-from cluster.clusterizer import log
+from clusterizer.cluster import MacroCluster
+from clusterizer import algorithms
+from clusterizer import common
+from clusterizer import config
+from clusterizer import log
+from clusterizer import macro_operations
+from clusterizer import micro_operations
 
 logger = log.get_logger("boiler")
 

@@ -1,7 +1,7 @@
 import collections
 import functools
 
-from cluster.clusterizer import log
+from clusterizer import log
 
 logger = log.get_logger("projects")
 

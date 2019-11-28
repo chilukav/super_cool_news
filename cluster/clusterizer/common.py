@@ -3,9 +3,9 @@ from numpy import zeros
 from numpy.linalg import norm
 from scipy.sparse import csr_matrix, coo_matrix
 
-from cluster.clusterizer.utils.matrix import add_replace_rows, set_columns_number, remove_rows
-from cluster.clusterizer import config
-from cluster.clusterizer import log
+from clusterizer.utils.matrix import add_replace_rows, set_columns_number, remove_rows
+from clusterizer import config
+from clusterizer import log
 
 logger = log.get_logger("common")
 

@@ -7,13 +7,10 @@ import pickle
 # TODO a log of work here.
 # TODO What is main purpose of imports? Do we need them?
 
-from scraper_common.db import lazyload
-from scraper.clusterizer import projects
-from scraper.redis import ClusterIdSeq
 
 
 def get_cluster_id():
-    return ClusterIdSeq().next_id()
+    return 42
 
 
 class Dictionary(object):
@@ -170,8 +167,6 @@ class Doc(object):
         self.source_rating = source_rating
         self.mtime = mtime or dt.datetime.now()
         self._resource_id = resource_id
-        if project_resources is None:
-            project_resources = lazyload.project_resources()
         self._main_resource = project_resources['main'].get(resource_id)
         self._profile_resource = project_resources['profile'].get(resource_id, set())
 
@@ -231,19 +226,6 @@ class Cluster(list):
         self.manual_pos = False
         self.has_meta = False
 
-    project_id = property()
-
-    @project_id.getter
-    def project_id(self):
-        if not getattr(self, '_project_id', None):
-            project_ids = projects.projects_set(self)
-            self._project_id = len(project_ids) == 1 and next(iter(project_ids)) or None
-        return self._project_id
-
-    @project_id.setter
-    def project_id(self, value):
-        self._project_id = getattr(self, '_project_id', None) or value
-
     def __repr__(self):
         return '{id}{project_id}: {docs}'.format(
             id=self.id,
@@ -288,7 +270,7 @@ class MacroCluster(Clusters):
         for c in self.values():
             ids.extend(c.doc_ids())
         return ids
-    
+
     def __repr__(self):
         return '[%s] %s' % (self.id, super(MacroCluster, self).__repr__())
 

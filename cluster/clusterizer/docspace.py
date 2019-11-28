@@ -11,40 +11,24 @@ from numpy.linalg import norm
 from scipy.sparse import csr_matrix, hstack, vstack
 from scipy.sparse import coo_matrix
 
-from scraper import utils
+#from scraper import utils
 
-from cluster.clusterizer import config
-from cluster.clusterizer import common
-from cluster.clusterizer.cluster import Doc
-from cluster.clusterizer.cluster import MacroClusters
-from cluster.clusterizer.utils.matrix import add_replace_rows
-from cluster.clusterizer import log
+from clusterizer import config
+from clusterizer import common
+from clusterizer.cluster import Doc
+from clusterizer.cluster import MacroClusters
+from clusterizer.utils.matrix import add_replace_rows
+from clusterizer import log
 
 # TODO resolve this imports. Do we actually need this shit?
 # from scraper.redis import ItemDate
-from scraper.redis import TokenizedItems
-from scraper_common import db
-from scraper_common.db import models
-from scraper_common.db import lazyload
+#from scraper.redis import TokenizedItems
+#from scraper_common import db
+#from scraper_common.db import models
+#from scraper_common.db import lazyload
 
 
 logger = log.get_logger("docspace")
-
-
-def read_definitions(filename):
-    "Read Boris' special words file"
-
-    result = {}
-
-    with open(filename) as fo:
-        for line in fo:
-            if len(line.split()) != 4:
-                continue
-            ltype, index_type, word, coef = line.split()
-            coef = float(coef.replace(',', '.'))
-            result[word] = coef
-
-    return result
 
 
 def calc_tf(term_freq, doc_length, mean_length):
@@ -72,7 +56,6 @@ def load_calc_idf(filename):
     return data
 
 
-spec_dict = read_definitions(config.SPEC_DICT_PATH)
 doc_mean_lens, idf_bm25 = load_calc_idf(config.BM25_IDF_PATH)
 
 
@@ -192,10 +175,6 @@ def count_frequency_doc(terms_parts):
             idf = idf_bm25[idf_name].get(term, calc_idf(1))
             term_freq[term] += tf * idf * config.WEIGHTS['doc_parts'][part_name]
 
-    for term in term_freq.keys():
-        if term in spec_dict:
-            term_freq[term] *= spec_dict[term]
-
     term_freq = term_freq.most_common(config.DOC_VECTOR_CUT)
     lnorm = norm([freq for _, freq in term_freq])
     if lnorm:
@@ -234,7 +213,6 @@ def prepare_docs(clusters, item_ids, clean, baker_data):
 
     added = []
     updated = []
-    project_resources = lazyload.project_resources()
     for item in items:
         doc = Doc(
             id=item.id,
@@ -242,7 +220,6 @@ def prepare_docs(clusters, item_ids, clean, baker_data):
             source_rating=item.rating or item.autorating or 0,
             mtime=item.mtime,
             resource_id=item.resource_id,
-            project_resources=project_resources
         )
 
         if item.id in clusters.doc_cluster:

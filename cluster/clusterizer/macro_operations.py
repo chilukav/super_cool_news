@@ -6,19 +6,19 @@ from numpy import argmax, argwhere
 from scipy.sparse import coo_matrix
 
 
-from cluster.clusterizer import common
-from cluster.clusterizer import config
-from cluster.clusterizer.common import update_docspace_helper
-from cluster.clusterizer.common import update_centroids_r1
-from cluster.clusterizer.cluster import Docmap
-from cluster.clusterizer.cluster import MacroCluster
-from cluster.clusterizer.cluster import get_cluster_id
-from cluster.clusterizer.docspace import remove_docs_twolevel
-from cluster.clusterizer.utils.matrix import append_rows
-from cluster.clusterizer.utils.matrix import set_columns_number
+from clusterizer import common
+from clusterizer import config
+from clusterizer.common import update_docspace_helper
+from clusterizer.common import update_centroids_r1
+from clusterizer.cluster import Docmap
+from clusterizer.cluster import MacroCluster
+from clusterizer.cluster import get_cluster_id
+from clusterizer.docspace import remove_docs_twolevel
+from clusterizer.utils.matrix import append_rows
+from clusterizer.utils.matrix import set_columns_number
 # TODO imports
-from cluster.lp.utils.build_aot_inv_idx import lemmatize_clean
-from cluster.clusterizer import log
+#from cluster.lp.utils.build_aot_inv_idx import lemmatize_clean
+from clusterizer import log
 
 logger = log.get_logger("operations")
 
@@ -332,7 +332,7 @@ def load_manual_updates(clusters, upd_clids, baker_data):
 
     if updated_centroids:
         clusters.centroids_r1 = update_docspace_helper(clusters.clmap_r1,
-            clusters.centroids_r1, updated_centroids, [], clusters.dictionary_r1.max)   
+            clusters.centroids_r1, updated_centroids, [], clusters.dictionary_r1.max)
 
 
 def clean(clusters, updated_clids, bd):

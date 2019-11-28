@@ -6,11 +6,11 @@ from numpy import clip, unravel_index
 from scipy.cluster.hierarchy import fcluster, inconsistent, linkage
 from scipy.spatial import distance
 
-from cluster.clusterizer import common
-from cluster.clusterizer import config
-from cluster.clusterizer import projects
-from cluster.clusterizer.cluster import Cluster, get_cluster_id
-from cluster.clusterizer import log
+from clusterizer import common
+from clusterizer import config
+from clusterizer import projects
+from clusterizer.cluster import Cluster, get_cluster_id
+from clusterizer import log
 
 logger = log.get_logger("algorithms")
 
